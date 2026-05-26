@@ -1,100 +1,769 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vientiane Camping Laos</title>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vientiane Camping Laos — Mountain Tent Camping</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
   <style>
-    body{
-      margin:0;
-      font-family:Arial,sans-serif;
-      background:#0f172a;
-      color:white;
-      text-align:center;
+    :root {
+      --forest:     #1a3a2a;
+      --deep:       #0e2318;
+      --gold:       #c9943a;
+      --light-gold: #e8ba6a;
+      --cream:      #f4ede0;
+      --mist:       #d9e8df;
+      --river:      #4a8c70;
     }
 
-    header{
-      padding:80px 20px;
-      background:linear-gradient(to bottom,#0f172a,#1e293b);
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--deep);
+      color: var(--cream);
+      overflow-x: hidden;
     }
 
-    h1{
-      font-size:48px;
-      margin-bottom:10px;
+    /* noise */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: 0.6;
     }
 
-    p{
-      font-size:20px;
-      color:#cbd5e1;
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.4rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(to bottom, rgba(14,35,24,0.95), transparent);
+      transition: all 0.4s ease;
+    }
+    nav.scrolled { backdrop-filter: blur(16px); background: rgba(14,35,24,0.92); padding: 1rem 4rem; }
+
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 900; color: var(--light-gold); text-decoration: none; }
+    .nav-logo span { display: block; font-size: 0.62rem; font-family: 'DM Sans', sans-serif; font-weight: 400; color: var(--mist); letter-spacing: 0.28em; text-transform: uppercase; margin-top: -2px; }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-size: 0.83rem; font-weight: 500; color: var(--cream); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.8; transition: opacity .3s, color .3s; }
+    .nav-links a:hover { opacity: 1; color: var(--light-gold); }
+    .nav-cta { background: var(--gold); color: var(--deep) !important; padding: .5rem 1.3rem; border-radius: 2px; font-weight: 700 !important; opacity: 1 !important; transition: background .3s !important; }
+    .nav-cta:hover { background: var(--light-gold) !important; }
+
+    /* ── HERO ── */
+    .hero { position: relative; height: 100vh; min-height: 680px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 80%, rgba(74,140,112,0.22) 0%, transparent 65%), linear-gradient(160deg, #0e2318 0%, #1a3a2a 45%, #0e2318 100%); animation: heroShift 12s ease-in-out infinite alternate; }
+    @keyframes heroShift { 0% { filter: brightness(1); } 100% { filter: brightness(1.1); } }
+
+    .leaf { position: absolute; opacity: 0; animation: floatLeaf linear infinite; }
+    @keyframes floatLeaf {
+      0%   { transform: translateY(110vh) rotate(0deg);   opacity: 0; }
+      10%  { opacity: 0.45; }
+      90%  { opacity: 0.25; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
     }
 
-    .btn{
-      display:inline-block;
-      margin-top:30px;
-      padding:15px 30px;
-      background:#22c55e;
-      color:white;
-      text-decoration:none;
-      border-radius:10px;
-      font-size:18px;
-    }
+    .hero-content { position: relative; z-index: 2; text-align: center; padding: 0 2rem; animation: fadeUp 1.2s cubic-bezier(.16,1,.3,1) both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 
-    section{
-      padding:60px 20px;
-    }
+    .hero-badge { display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: var(--light-gold); border: 1px solid rgba(201,148,58,0.4); padding: .4rem 1.2rem; border-radius: 2px; margin-bottom: 1.8rem; animation: fadeUp 1.2s .2s cubic-bezier(.16,1,.3,1) both; }
 
-    .card{
-      background:#1e293b;
-      padding:30px;
-      margin:20px auto;
-      max-width:600px;
-      border-radius:15px;
-    }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 8vw, 7rem); font-weight: 900; line-height: 1; color: var(--cream); margin-bottom: .15em; animation: fadeUp 1.2s .3s cubic-bezier(.16,1,.3,1) both; }
+    .hero h1 em { font-style: italic; color: var(--light-gold); display: block; }
 
-    footer{
-      padding:30px;
-      background:#020617;
-      color:#94a3b8;
+    .hero-sub { font-size: clamp(.95rem, 1.8vw, 1.15rem); font-weight: 300; color: var(--mist); max-width: 540px; margin: 1.5rem auto 2.6rem; line-height: 1.85; animation: fadeUp 1.2s .4s cubic-bezier(.16,1,.3,1) both; }
+
+    .hero-actions { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; animation: fadeUp 1.2s .5s cubic-bezier(.16,1,.3,1) both; }
+
+    .btn-primary { background: var(--gold); color: var(--deep); font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .95rem 2.3rem; border: none; border-radius: 2px; cursor: pointer; text-decoration: none; display: inline-block; transition: background .3s, transform .2s; }
+    .btn-primary:hover { background: var(--light-gold); transform: translateY(-2px); }
+
+    .btn-ghost { background: transparent; color: var(--cream); font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; padding: .95rem 2.3rem; border: 1px solid rgba(244,237,224,.35); border-radius: 2px; cursor: pointer; text-decoration: none; display: inline-block; transition: border-color .3s, color .3s, transform .2s; }
+    .btn-ghost:hover { border-color: var(--light-gold); color: var(--light-gold); transform: translateY(-2px); }
+
+    .hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: .5rem; font-size: .68rem; letter-spacing: .25em; text-transform: uppercase; color: rgba(244,237,224,.45); animation: fadeUp 1.2s .9s both; }
+    .scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, rgba(244,237,224,.5), transparent); animation: scrollPulse 2s ease-in-out infinite; }
+    @keyframes scrollPulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+
+    /* ── STATS ── */
+    .stats-bar { background: var(--gold); padding: 1.4rem 4rem; display: flex; justify-content: center; gap: 5rem; flex-wrap: wrap; }
+    .stat-item { text-align: center; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--deep); line-height: 1; }
+    .stat-label { font-size: .7rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: rgba(14,35,24,.65); margin-top: .25rem; }
+
+    /* ── SECTION BASE ── */
+    section { padding: 7rem 4rem; }
+    .section-tag { font-size: .7rem; font-weight: 600; letter-spacing: .35em; text-transform: uppercase; color: var(--light-gold); margin-bottom: 1rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.1rem); font-weight: 700; line-height: 1.15; margin-bottom: 1.5rem; }
+    .section-title em { font-style: italic; color: var(--light-gold); }
+
+    /* ── ABOUT ── */
+    .about { background: var(--forest); display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+    .about-visual { position: relative; height: 460px; }
+    .about-card { position: absolute; border-radius: 4px; overflow: hidden; }
+    .about-card-main { width: 72%; height: 85%; top: 0; left: 0; background: linear-gradient(135deg,#1a3a2a,#2d5e45); display: flex; align-items: center; justify-content: center; font-size: 5.5rem; box-shadow: 0 20px 60px rgba(0,0,0,.4); }
+    .about-card-accent { width: 50%; height: 45%; bottom: 0; right: 0; background: linear-gradient(135deg,#c9943a,#e8ba6a); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; box-shadow: 0 16px 40px rgba(0,0,0,.35); }
+    .about-badge-float { position: absolute; top: 55%; right: 28%; background: var(--deep); border: 1px solid rgba(201,148,58,.4); padding: .8rem 1.2rem; border-radius: 2px; text-align: center; z-index: 2; box-shadow: 0 8px 24px rgba(0,0,0,.4); }
+    .about-badge-float strong { display: block; font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--light-gold); }
+    .about-badge-float span { font-size: .68rem; letter-spacing: .15em; text-transform: uppercase; color: var(--mist); }
+    .about-text p { font-size: .98rem; font-weight: 300; color: var(--mist); line-height: 1.9; margin-bottom: 1.2rem; }
+    .about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+    .feature-chip { display: flex; align-items: center; gap: .7rem; font-size: .85rem; font-weight: 500; color: var(--mist); }
+    .feature-chip .icon { width: 36px; height: 36px; background: rgba(201,148,58,.15); border: 1px solid rgba(201,148,58,.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+
+    /* ── TOURS ── */
+    .tours { background: var(--deep); }
+    .tours-header { text-align: center; max-width: 620px; margin: 0 auto 4rem; }
+    .tours-header p { font-size: .95rem; font-weight: 300; color: var(--mist); line-height: 1.8; margin-top: .8rem; }
+
+    /* single-tour hero layout */
+    .tour-hero {
+      max-width: 900px; margin: 0 auto;
+      background: var(--forest);
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid rgba(74,140,112,.18);
+      box-shadow: 0 32px 80px rgba(0,0,0,.45);
+    }
+    .tour-hero-img {
+      height: 320px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 7rem;
+      position: relative;
+      background: linear-gradient(135deg,#0e2318 0%,#1a3a2a 40%,#2d5e45 70%,#1a3a2a 100%);
+    }
+    .tour-hero-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, rgba(26,58,42,.9)); }
+    .tour-hero-badge { position: absolute; top: 1.2rem; left: 1.2rem; background: var(--gold); color: var(--deep); font-size: .68rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; padding: .3rem .8rem; border-radius: 2px; z-index: 1; }
+    .tour-hero-body { padding: 2.5rem 3rem 3rem; }
+    .tour-hero-body h3 { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700; color: var(--cream); margin-bottom: .6rem; }
+    .tour-hero-body > p { font-size: .97rem; font-weight: 300; color: rgba(217,232,223,.75); line-height: 1.8; margin-bottom: 2rem; }
+
+    .tour-tiers { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-bottom: 2.5rem; }
+    .tier-card { background: rgba(14,35,24,.55); border: 1px solid rgba(74,140,112,.22); border-radius: 4px; padding: 1.4rem; transition: border-color .3s, transform .3s; }
+    .tier-card:hover { border-color: rgba(201,148,58,.5); transform: translateY(-4px); }
+    .tier-name { font-size: .68rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--light-gold); margin-bottom: .5rem; }
+    .tier-price { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 900; color: var(--cream); line-height: 1; }
+    .tier-price sub { font-size: .75rem; font-family: 'DM Sans', sans-serif; font-weight: 400; color: rgba(244,237,224,.5); vertical-align: baseline; }
+    .tier-desc { font-size: .82rem; font-weight: 300; color: rgba(217,232,223,.65); line-height: 1.6; margin: .7rem 0 1rem; }
+    .tier-includes { list-style: none; display: flex; flex-direction: column; gap: .35rem; }
+    .tier-includes li { font-size: .8rem; font-weight: 400; color: var(--mist); display: flex; align-items: center; gap: .5rem; }
+    .tier-includes li::before { content: '✓'; color: var(--river); font-weight: 700; }
+
+    .tour-meta-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .meta-tag { font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--river); background: rgba(74,140,112,.12); border: 1px solid rgba(74,140,112,.3); padding: .25rem .75rem; border-radius: 1px; }
+
+    .tour-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    /* ── HIGHLIGHTS ── */
+    .highlights { background: var(--forest); display: grid; grid-template-columns: 1fr 1fr; gap: 0; padding: 0; }
+    .highlights-text { padding: 7rem 5rem; display: flex; flex-direction: column; justify-content: center; }
+    .highlights-text p { font-size: .97rem; font-weight: 300; color: var(--mist); line-height: 1.9; margin-bottom: 1.4rem; }
+    .highlights-grid { padding: 7rem 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; align-content: center; }
+    .highlight-box { background: rgba(14,35,24,.6); border: 1px solid rgba(74,140,112,.18); border-radius: 4px; padding: 1.5rem; transition: border-color .3s, transform .3s; }
+    .highlight-box:hover { border-color: rgba(201,148,58,.5); transform: translateY(-4px); }
+    .highlight-icon { font-size: 1.9rem; margin-bottom: .8rem; }
+    .highlight-box h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 600; color: var(--cream); margin-bottom: .4rem; }
+    .highlight-box p { font-size: .82rem; font-weight: 300; color: rgba(217,232,223,.65); line-height: 1.6; }
+
+    /* ── ITINERARY ── */
+    .itinerary { background: var(--deep); }
+    .itinerary-header { text-align: center; max-width: 560px; margin: 0 auto 4rem; }
+    .day-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 0; }
+    .day-item { display: grid; grid-template-columns: 80px 1fr; border-left: 2px solid rgba(74,140,112,.25); position: relative; }
+    .day-item::before { content: ''; position: absolute; top: 1.6rem; left: -7px; width: 12px; height: 12px; background: var(--gold); border-radius: 50%; border: 2px solid var(--deep); }
+    .day-num { padding: 1.5rem 1.5rem 1.5rem 1.8rem; font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: rgba(201,148,58,.25); line-height: 1; }
+    .day-content { padding: 1.5rem 1.5rem 2rem 0; }
+    .day-content h4 { font-size: 1rem; font-weight: 600; color: var(--cream); margin-bottom: .4rem; }
+    .day-content p { font-size: .88rem; font-weight: 300; color: rgba(217,232,223,.65); line-height: 1.75; }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials { background: var(--forest); }
+    .testimonials-header { text-align: center; max-width: 500px; margin: 0 auto 4rem; }
+    .testimonials-track { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.4rem; max-width: 1100px; margin: 0 auto; }
+    .testi-card { background: rgba(14,35,24,.65); border: 1px solid rgba(74,140,112,.15); border-radius: 4px; padding: 2rem; }
+    .testi-quote { font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--gold); line-height: .5; margin-bottom: 1rem; }
+    .testi-text { font-size: .9rem; font-weight: 300; color: var(--mist); line-height: 1.8; font-style: italic; margin-bottom: 1.5rem; }
+    .testi-author { display: flex; align-items: center; gap: .8rem; }
+    .author-avatar { width: 42px; height: 42px; background: linear-gradient(135deg,var(--gold),var(--river)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .author-name { font-weight: 600; font-size: .88rem; color: var(--cream); }
+    .author-from { font-size: .72rem; color: rgba(217,232,223,.5); }
+    .stars { color: var(--gold); font-size: .78rem; margin-top: .2rem; }
+
+    /* ── GALLERY ── */
+    .gallery { background: var(--deep); padding: 7rem 4rem; }
+    .gallery-header { text-align: center; margin-bottom: 3rem; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(4,1fr); grid-template-rows: 200px 200px; gap: 1rem; max-width: 1200px; margin: 0 auto; }
+    .gallery-item { border-radius: 4px; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 4rem; position: relative; transition: transform .4s; cursor: pointer; }
+    .gallery-item:hover { transform: scale(1.02); }
+    .gallery-item:nth-child(1) { grid-column: span 2; background: linear-gradient(135deg,#1a3a2a,#2d5e45); }
+    .gallery-item:nth-child(2) { background: linear-gradient(135deg,#0e2318,#1a4a30); }
+    .gallery-item:nth-child(3) { background: linear-gradient(135deg,#3a2a0e,#5e4a1a); }
+    .gallery-item:nth-child(4) { background: linear-gradient(135deg,#0e2318,#2a3a2a); }
+    .gallery-item:nth-child(5) { background: linear-gradient(135deg,#1a2a3a,#2a4a5e); }
+    .gallery-item:nth-child(6) { grid-column: span 2; background: linear-gradient(135deg,#2a1a0e,#4a3a1a); }
+    .gallery-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top,rgba(14,35,24,.9),transparent); padding: 1.5rem 1rem .8rem; font-size: .78rem; font-weight: 500; color: var(--mist); letter-spacing: .08em; }
+
+    /* ── CTA ── */
+    .cta-banner { background: linear-gradient(135deg,var(--gold) 0%,#a0722a 50%,var(--gold) 100%); background-size: 200% 200%; animation: gradientShift 6s ease infinite; padding: 5rem 4rem; text-align: center; }
+    @keyframes gradientShift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+    .cta-banner h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem,4vw,3rem); font-weight: 900; color: var(--deep); margin-bottom: .8rem; }
+    .cta-banner p { font-size: 1rem; color: rgba(14,35,24,.72); margin-bottom: 2rem; }
+    .btn-dark { background: var(--deep); color: var(--light-gold); font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 1rem 2.3rem; border: none; border-radius: 2px; cursor: pointer; text-decoration: none; display: inline-block; transition: background .3s, transform .2s; }
+    .btn-dark:hover { background: var(--forest); transform: translateY(-2px); }
+
+    /* ── CONTACT ── */
+    .contact { background: var(--forest); display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+    .contact-info p { font-size: .97rem; font-weight: 300; color: var(--mist); line-height: 1.9; margin-bottom: 2.5rem; }
+    .contact-details { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-item { display: flex; align-items: flex-start; gap: 1rem; }
+    .contact-item-icon { width: 44px; height: 44px; background: rgba(201,148,58,.12); border: 1px solid rgba(201,148,58,.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+    .contact-item-text strong { display: block; font-size: .76rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--light-gold); margin-bottom: .2rem; }
+    .contact-item-text span { font-size: .9rem; font-weight: 300; color: var(--mist); }
+
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-group { display: flex; flex-direction: column; gap: .5rem; }
+    .form-group label { font-size: .7rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--light-gold); }
+    .form-group input, .form-group textarea, .form-group select { background: rgba(255,255,255,.04); border: 1px solid rgba(74,140,112,.3); border-radius: 2px; padding: .85rem 1rem; font-family: 'DM Sans', sans-serif; font-size: .9rem; color: var(--cream); outline: none; transition: border-color .3s; }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--gold); }
+    .form-group select option { background: var(--forest); }
+    .form-group textarea { min-height: 120px; resize: vertical; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+
+    /* ── FOOTER ── */
+    footer { background: #080f0b; padding: 4rem 4rem 2rem; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; margin-bottom: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(74,140,112,.15); }
+    .footer-brand-name { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; color: var(--light-gold); margin-bottom: .25rem; }
+    .footer-brand-sub { font-size: .68rem; letter-spacing: .25em; text-transform: uppercase; color: rgba(217,232,223,.38); margin-bottom: 1rem; }
+    .footer-desc { font-size: .84rem; font-weight: 300; color: rgba(217,232,223,.5); line-height: 1.8; }
+    .footer-col h5 { font-size: .7rem; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; color: var(--light-gold); margin-bottom: 1.2rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+    .footer-col ul a { font-size: .84rem; font-weight: 300; color: rgba(217,232,223,.55); text-decoration: none; transition: color .3s; }
+    .footer-col ul a:hover { color: var(--cream); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: .76rem; color: rgba(217,232,223,.3); }
+    .social-links { display: flex; gap: 1rem; }
+    .social-link { width: 36px; height: 36px; border: 1px solid rgba(74,140,112,.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .9rem; text-decoration: none; transition: border-color .3s, background .3s; }
+    .social-link:hover { border-color: var(--gold); background: rgba(201,148,58,.1); }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      nav, nav.scrolled { padding: 1.2rem 2rem; }
+      section { padding: 5rem 2rem; }
+      .about { grid-template-columns: 1fr; gap: 3rem; }
+      .about-visual { height: 300px; }
+      .tour-tiers { grid-template-columns: 1fr; }
+      .highlights { grid-template-columns: 1fr; }
+      .highlights-text { padding: 5rem 2rem 2.5rem; }
+      .highlights-grid { padding: 2.5rem 2rem 5rem; }
+      .contact { grid-template-columns: 1fr; gap: 4rem; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+      .gallery-grid { grid-template-columns: repeat(2,1fr); grid-template-rows: repeat(3,180px); }
+      .gallery-item:nth-child(1), .gallery-item:nth-child(6) { grid-column: span 2; }
+      .testimonials-track { grid-template-columns: 1fr 1fr; }
+      .tour-hero-body { padding: 1.8rem; }
+    }
+    @media (max-width: 680px) {
+      nav, nav.scrolled { padding: 1rem 1.2rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.2rem; }
+      .stats-bar { padding: 1.2rem; gap: 2rem; }
+      .testimonials-track { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+      .cta-banner { padding: 4rem 1.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .about-features { grid-template-columns: 1fr; }
+      .tour-tiers { grid-template-columns: 1fr; }
+      .day-item { grid-template-columns: 60px 1fr; }
     }
   </style>
 </head>
 
 <body>
 
-<header>
-  <h1>Vientiane Camping Laos</h1>
-  <p>Nature • Adventure • Relax</p>
-
-  <a class="btn" href="#">
-    Contact Us
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    Vientiane
+    <span>Camping Laos</span>
   </a>
-</header>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#tours">Our Tour</a></li>
+    <li><a href="#itinerary">Itinerary</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact" class="nav-cta">Book Now</a></li>
+  </ul>
+</nav>
 
-<section>
-  <div class="card">
-    <h2>About Us</h2>
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="leaf" style="left:8%;  animation-duration:14s; animation-delay:0s;   font-size:1.2rem;">🍃</div>
+  <div class="leaf" style="left:22%; animation-duration:18s; animation-delay:3s;   font-size:1.8rem;">🌿</div>
+  <div class="leaf" style="left:60%; animation-duration:12s; animation-delay:6s;   font-size:1rem; ">🍂</div>
+  <div class="leaf" style="left:78%; animation-duration:16s; animation-delay:1.5s; font-size:1.4rem;">🌱</div>
+  <div class="leaf" style="left:45%; animation-duration:20s; animation-delay:9s;   font-size:1.1rem;">🍃</div>
 
-    <p>
-      Welcome to Vientiane Camping Laos.
-      Enjoy beautiful nature, camping experiences,
-      and peaceful outdoor adventures in Laos.
+  <div class="hero-content">
+    <div class="hero-badge">✦ Premium Mountain Camping — Laos ✦</div>
+    <h1>
+      Vientiane
+      <em>Camping Laos</em>
+    </h1>
+    <p class="hero-sub">
+      Sleep under a million stars deep in the Laotian highlands.<br/>
+      Wake up to misty mountain peaks and total wilderness silence.<br/>
+      The mountain camping experience you will never forget.
     </p>
+    <div class="hero-actions">
+      <a href="#tours" class="btn-primary">View the Tour</a>
+      <a href="#about" class="btn-ghost">Learn More</a>
+    </div>
   </div>
 
-  <div class="card">
-    <h2>Camping Experience</h2>
-
-    <p>
-      Mountains, rivers, fresh air,
-      and unforgettable memories.
-    </p>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll
   </div>
 </section>
 
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">500+</div>
+    <div class="stat-label">Happy Campers</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">1</div>
+    <div class="stat-label">Signature Route</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">5★</div>
+    <div class="stat-label">Average Rating</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">8 yrs</div>
+    <div class="stat-label">Experience</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-visual reveal">
+    <div class="about-card about-card-main">⛰️</div>
+    <div class="about-card about-card-accent">🏕️</div>
+    <div class="about-badge-float">
+      <strong>100%</strong>
+      <span>Pure Nature</span>
+    </div>
+  </div>
+  <div class="about-text reveal">
+    <p class="section-tag">✦ Our Story</p>
+    <h2 class="section-title">
+      Into the Heart of<br/>
+      <em>Laos' Mountains</em>
+    </h2>
+    <p>Vientiane Camping Laos was born from a deep love of wild places and Laotian culture. We take you into highland terrain that very few visitors ever reach — towering peaks, dense bamboo forest, and cold mountain air untouched by the modern world.</p>
+    <p>Our local guides have walked these trails their whole lives. They know every ridge, stream, and viewpoint. You bring the sense of adventure; we handle everything else.</p>
+    <div class="about-features">
+      <div class="feature-chip"><div class="icon">⛺</div>Premium Tent Gear</div>
+      <div class="feature-chip"><div class="icon">🍽️</div>Authentic Lao Meals</div>
+      <div class="feature-chip"><div class="icon">🌙</div>Stargazing Nights</div>
+      <div class="feature-chip"><div class="icon">🗺️</div>Expert Local Guides</div>
+      <div class="feature-chip"><div class="icon">📷</div>Trip Photographer</div>
+      <div class="feature-chip"><div class="icon">🛡️</div>Full Safety Kit</div>
+    </div>
+  </div>
+</section>
+
+<!-- TOURS -->
+<section class="tours" id="tours">
+  <div class="tours-header reveal">
+    <p class="section-tag">✦ Our Signature Tour</p>
+    <h2 class="section-title">
+      <em>Mountain Tent Camping</em><br/>in the Lao Highlands
+    </h2>
+    <p>One route. Three tiers. An unforgettable night under the stars on the mountain ridges above Vientiane. Choose the experience level that suits you best.</p>
+  </div>
+
+  <div class="tour-hero reveal">
+    <div class="tour-hero-img">
+      ⛰️
+      <div class="tour-hero-badge">🏔 Most Popular</div>
+    </div>
+    <div class="tour-hero-body">
+      <h3>Highland Tent Camping — Lao Mountains</h3>
+      <p>Trek through dense bamboo and pine forest to our private campsite at 1,400 m elevation. Pitch your tent as the sun melts behind layered mountain ridges, then spend the night in total darkness listening to the forest breathe. Wake to mist rolling over the peaks and breakfast cooked on an open fire.</p>
+
+      <div class="tour-meta-row">
+        <span class="meta-tag">🕐 2 Days · 1 Night</span>
+        <span class="meta-tag">🥾 Moderate Trek (4–5 hrs)</span>
+        <span class="meta-tag">👥 4–12 People</span>
+        <span class="meta-tag">📍 Phou Khao Region, Laos</span>
+      </div>
+
+      <div class="tour-tiers">
+        <!-- TIER 1 -->
+        <div class="tier-card">
+          <div class="tier-name">Essential</div>
+          <div class="tier-price">฿2,900 <sub>/ person</sub></div>
+          <div class="tier-desc">All you need for a solid mountain night out.</div>
+          <ul class="tier-includes">
+            <li>4-season dome tent</li>
+            <li>Sleeping bag &amp; mat</li>
+            <li>2 Lao meals + coffee</li>
+            <li>Local guide (EN/TH)</li>
+            <li>Transport from Vientiane</li>
+            <li>First aid support</li>
+          </ul>
+        </div>
+        <!-- TIER 2 -->
+        <div class="tier-card" style="border-color:rgba(201,148,58,.45);">
+          <div class="tier-name" style="color:var(--light-gold);">Adventure ★ Best Value</div>
+          <div class="tier-price">฿4,200 <sub>/ person</sub></div>
+          <div class="tier-desc">Extended trek, extra night, and richer meals.</div>
+          <ul class="tier-includes">
+            <li>Everything in Essential</li>
+            <li>+1 night (3D·2N route)</li>
+            <li>5 Lao meals + snacks</li>
+            <li>Campfire &amp; bonfire kit</li>
+            <li>Stargazing guided session</li>
+            <li>Waterfall side-hike</li>
+          </ul>
+        </div>
+        <!-- TIER 3 -->
+        <div class="tier-card">
+          <div class="tier-name">Premium</div>
+          <div class="tier-price">฿6,800 <sub>/ person</sub></div>
+          <div class="tier-desc">Glamping-style comfort at altitude.</div>
+          <ul class="tier-includes">
+            <li>Everything in Adventure</li>
+            <li>Luxury bell tent + real bed</li>
+            <li>Private chef · 3 courses</li>
+            <li>Trip photographer</li>
+            <li>Outdoor forest spa session</li>
+            <li>Min. 2 people booking</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tour-actions">
+        <a href="#contact" class="btn-primary">Book Your Tent →</a>
+        <a href="#itinerary" class="btn-ghost">See Full Itinerary</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ITINERARY -->
+<section class="itinerary" id="itinerary">
+  <div class="itinerary-header reveal">
+    <p class="section-tag">✦ Day-by-Day (Adventure Tier)</p>
+    <h2 class="section-title">What to <em>Expect</em></h2>
+  </div>
+  <div class="day-list reveal">
+    <div class="day-item">
+      <div class="day-num">01</div>
+      <div class="day-content">
+        <h4>Vientiane Departure → Forest Trailhead</h4>
+        <p>Meet your guide at 7 AM in central Vientiane. Transfer by 4WD to the mountain trailhead (~2 hrs). Begin trekking through bamboo forest and ascending ridge paths. Arrive at camp by late afternoon. Set up tents, gather firewood, and enjoy a traditional Lao dinner as the stars appear.</p>
+      </div>
+    </div>
+    <div class="day-item">
+      <div class="day-num">02</div>
+      <div class="day-content">
+        <h4>Summit Morning → Waterfall Side-Hike</h4>
+        <p>Rise early for the sunrise from the ridge (optional guided stargazing the night before). Breakfast over the fire, then tackle the short summit push for panoramic views over Laos and distant Thailand. Afternoon detour to a hidden waterfall. Return to camp for the second night.</p>
+      </div>
+    </div>
+    <div class="day-item">
+      <div class="day-num">03</div>
+      <div class="day-content">
+        <h4>Descent → Village Stop → Vientiane</h4>
+        <p>Morning coffee at camp with the mist still below you. Pack up and descend via an alternative trail through a traditional highland village, where you can browse local crafts. Return to Vientiane by 3 PM with memories that'll last a lifetime.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section class="highlights">
+  <div class="highlights-text reveal">
+    <p class="section-tag">✦ Why Choose Us</p>
+    <h2 class="section-title">
+      An Experience<br/><em>Unlike Any Other</em>
+    </h2>
+    <p>We don't just take you camping — we take you somewhere that most travellers never reach. No crowds. No Wi-Fi signal. Just mountains, stars, and the sounds of the Laotian wilderness.</p>
+    <p>Our team are all local guides who have walked these paths their entire lives. Every detail — from the food to the fire — is prepared with genuine care.</p>
+    <a href="#contact" class="btn-primary" style="align-self:flex-start; margin-top:1rem;">Book a Spot</a>
+  </div>
+  <div class="highlights-grid">
+    <div class="highlight-box reveal">
+      <div class="highlight-icon">⛺</div>
+      <h4>Quality Tent Gear</h4>
+      <p>4-season tents, warm sleeping bags, and insulated mats for cold mountain nights.</p>
+    </div>
+    <div class="highlight-box reveal" style="transition-delay:.1s">
+      <div class="highlight-icon">👨‍🍳</div>
+      <h4>Local Chef</h4>
+      <p>Authentic Lao food cooked fresh at camp — sticky rice, forest herbs, and open fire.</p>
+    </div>
+    <div class="highlight-box reveal" style="transition-delay:.15s">
+      <div class="highlight-icon">🗺️</div>
+      <h4>Expert Guides</h4>
+      <p>Lifelong locals who know every trail, plant, and summit story in the region.</p>
+    </div>
+    <div class="highlight-box reveal" style="transition-delay:.2s">
+      <div class="highlight-icon">🚑</div>
+      <h4>Safety First</h4>
+      <p>Full first aid kit, satellite communication, and emergency evacuation plan.</p>
+    </div>
+    <div class="highlight-box reveal" style="transition-delay:.25s">
+      <div class="highlight-icon">📷</div>
+      <h4>Trip Photographer</h4>
+      <p>Premium tier includes a dedicated photographer capturing every peak moment.</p>
+    </div>
+    <div class="highlight-box reveal" style="transition-delay:.3s">
+      <div class="highlight-icon">🌱</div>
+      <h4>Leave No Trace</h4>
+      <p>We operate fully eco-friendly — all waste out, fire rings restored, zero impact.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="testimonials-header reveal">
+    <p class="section-tag">✦ From the Campers</p>
+    <h2 class="section-title">
+      Real <em>Stories</em><br/>from the Mountain
+    </h2>
+  </div>
+  <div class="testimonials-track">
+    <div class="testi-card reveal">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">Waking up to clouds below us at 1,400 metres — that image will never leave me. The guides were phenomenal and the food was surprisingly incredible for a mountain camp.</p>
+      <div class="testi-author">
+        <div class="author-avatar">🧑</div>
+        <div>
+          <div class="author-name">James R.</div>
+          <div class="author-from">London, UK</div>
+          <div class="stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal" style="transition-delay:.1s">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">I've done treks in Nepal and Patagonia. This was quieter, more personal, and the stars were unreal. The Premium tier was worth every baht — that bell tent was cozy.</p>
+      <div class="testi-author">
+        <div class="author-avatar">👩</div>
+        <div>
+          <div class="author-name">Amelia T.</div>
+          <div class="author-from">Melbourne, AU</div>
+          <div class="stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card reveal" style="transition-delay:.2s">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">Best decision of our Laos trip. Booked the Adventure tier with 6 friends — the campfire on night 2 was one of those magic moments I'll tell people about for years.</p>
+      <div class="testi-author">
+        <div class="author-avatar">🧑</div>
+        <div>
+          <div class="author-name">Marco S.</div>
+          <div class="author-from">Milan, Italy</div>
+          <div class="stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="gallery-header reveal">
+    <p class="section-tag">✦ From the Trail</p>
+    <h2 class="section-title">Life on the <em>Mountain</em></h2>
+  </div>
+  <div class="gallery-grid reveal">
+    <div class="gallery-item">🌅<div class="gallery-label">Summit Sunrise</div></div>
+    <div class="gallery-item">⛺<div class="gallery-label">Camp at 1,400m</div></div>
+    <div class="gallery-item">🔥<div class="gallery-label">Evening Campfire</div></div>
+    <div class="gallery-item">🌌<div class="gallery-label">Stargazing Night</div></div>
+    <div class="gallery-item">🌊<div class="gallery-label">Hidden Waterfall</div></div>
+    <div class="gallery-item">🏔️<div class="gallery-label">Ridge Views over Laos</div></div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta-banner reveal">
+  <h2>Ready to Sleep on the Mountain?</h2>
+  <p>Book 7+ days ahead and receive 15% off + a handcrafted Lao souvenir, free.</p>
+  <a href="#contact" class="btn-dark">Reserve Your Tent →</a>
+</div>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-info reveal">
+    <p class="section-tag">✦ Get in Touch</p>
+    <h2 class="section-title">
+      Let's Plan<br/><em>Your Mountain Trip</em>
+    </h2>
+    <p>Fill out the form and our team will reply within 24 hours with availability, packing lists, and anything else you need to prepare for the highland.</p>
+    <div class="contact-details">
+      <div class="contact-item">
+        <div class="contact-item-icon">📍</div>
+        <div class="contact-item-text">
+          <strong>Base Office</strong>
+          <span>123 Lan Xang Avenue, Chanthabouli, Vientiane, Laos PDR</span>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">📞</div>
+        <div class="contact-item-text">
+          <strong>Phone / WhatsApp</strong>
+          <span>+856 20 1234 5678</span>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">📧</div>
+        <div class="contact-item-text">
+          <strong>Email</strong>
+          <span>hello@vientiane-camping.com</span>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">⏰</div>
+        <div class="contact-item-text">
+          <strong>Response Time</strong>
+          <span>Within 24 hours · 7 days a week</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-form reveal">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" placeholder="Your name" />
+      </div>
+      <div class="form-group">
+        <label>Phone / WhatsApp</label>
+        <input type="tel" placeholder="+1 234 567 890" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" placeholder="your@email.com" />
+    </div>
+    <div class="form-group">
+      <label>Preferred Tier</label>
+      <select>
+        <option value="">Select a tier</option>
+        <option>Essential — ฿2,900/person</option>
+        <option>Adventure — ฿4,200/person</option>
+        <option>Premium — ฿6,800/person</option>
+        <option>Not sure yet — help me decide</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Preferred Date</label>
+        <input type="date" />
+      </div>
+      <div class="form-group">
+        <label>Group Size</label>
+        <input type="number" placeholder="4" min="1" max="12" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Anything to tell us?</label>
+      <textarea placeholder="Dietary needs, fitness level, questions..."></textarea>
+    </div>
+    <button type="button" id="submitBtn" class="btn-primary" style="width:100%; font-size:1rem; padding:1.1rem;">
+      Send Booking Request →
+    </button>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
-  © 2026 Vientiane Camping Laos
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">Vientiane Camping Laos</div>
+      <div class="footer-brand-sub">เวียนเทียนแคมป์ปิ้งลาว</div>
+      <p class="footer-desc">Laos' leading mountain tent camping operator. Taking adventurers into the Lao highlands since 2017 — responsibly, authentically, unforgettably.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Quick Links</h5>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#tours">The Tour</a></li>
+        <li><a href="#itinerary">Itinerary</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Tiers</h5>
+      <ul>
+        <li><a href="#tours">Essential — ฿2,900</a></li>
+        <li><a href="#tours">Adventure — ฿4,200</a></li>
+        <li><a href="#tours">Premium — ฿6,800</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Info</h5>
+      <ul>
+        <li><a href="#">Packing List</a></li>
+        <li><a href="#">Booking Policy</a></li>
+        <li><a href="#">Cancellation</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 Vientiane Camping Laos · All rights reserved</span>
+    <div class="social-links">
+      <a href="#" class="social-link">📘</a>
+      <a href="#" class="social-link">📸</a>
+      <a href="#" class="social-link">▶️</a>
+      <a href="#" class="social-link">✉️</a>
+    </div>
+  </div>
 </footer>
 
+<script>
+  // Navbar
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+  // Reveal on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Form submit
+  document.getElementById('submitBtn').addEventListener('click', function () {
+    this.textContent = '✅ Request sent! We\'ll reply within 24 hours.';
+    this.style.background = '#2d7a4a';
+    this.style.color = '#fff';
+    setTimeout(() => {
+      this.textContent = 'Send Booking Request →';
+      this.style.background = '';
+      this.style.color = '';
+    }, 5000);
+  });
+</script>
 </body>
 </html>
